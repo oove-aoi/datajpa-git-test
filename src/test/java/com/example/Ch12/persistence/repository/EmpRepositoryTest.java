@@ -14,46 +14,34 @@ public class EmpRepositoryTest {
     @Autowired
     private DeptRepository deptRepository;
 
+    @Autowired
+    private EmpRepository empRepository;
+
     @Test
-    void saveDept() {
-        Dept dept = new Dept();
+    void saveEmp() {
+        Emp emp = new Emp();
+        emp.setName("王武");
+        emp.setSalary(3500.00);
 
-        dept.setName("市場部");
-        dept.setLoc("東京");
 
-        Emp emp1 = new Emp();
-        emp1.setName("張三");
-        emp1.setSalary(3000.00);
-        emp1.setDept(dept);
-
-        Emp emp2 = new Emp();
-        emp2.setName("老王");
-        emp2.setSalary(6000.00);
-        emp2.setDept(dept);
-
-        dept.addEmp(emp1);
-        dept.addEmp(emp2);
-
-        deptRepository.save(dept);
+        Dept dept = deptRepository.getById(2);
+        emp.setDept(dept);
+        empRepository.save(emp);
     }
 
     @Test
-    void getDeptById() {
-        Optional<Dept> optionalDept = deptRepository.findById(1);
-        if(optionalDept.isPresent()) {
-            Dept dept = optionalDept.get();
-            System.out.println("部門名稱:" + dept.getName());
-            System.out.println("部門位置:" + dept.getLoc());
+    void getEmpById() {
+        Optional<Emp> optionalEmp = empRepository.findById(1);
+        if(optionalEmp.isPresent()) {
+            Emp emp = optionalEmp.get();
+            System.out.println("部門名稱:" + emp.getName());
+            System.out.println("部門位置:" + emp.getDept().getName());
         }
     }
 
     @Test
     void deleteDept() {
-        Optional<Dept> optionalDept = deptRepository.findById(1);
-        if(optionalDept.isPresent()) {
-            Dept dept = optionalDept.get();
-           deptRepository.delete(dept);
-        }
+        empRepository.deleteById(3);
     }
 
 
